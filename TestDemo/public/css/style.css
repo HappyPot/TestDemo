@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.mess{
+    background: lightblue;
+}
+.mess p{
+    border-bottom: 1px solid #ddd; 
+    padding: 10px;
+}

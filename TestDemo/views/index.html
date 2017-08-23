@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+</head>
+
+<body>
+    <h1>注册</h1>
+    <form method="post" action="">
+        <label for="username">用户名：</label>
+        <input type="text" name="username" id="username" placeholder="请输入用户名">
+        <label for="password">密码</label>
+        <input type="password" name="password" id="password" placeholder="请输入密码">
+        <input type="button" id="insert" value="注册">
+    </form>
+    <div class="mess">
+
+    </div>
+    <h1>修改密码</h1>
+    <form method="post" action="">
+        <label for="username">原始密码</label>
+        <input type="text" name="oldpwd" id="oldpwd" placeholder="原始密码">
+        <label for="password">新密码</label>
+        <input type="password" name="newpwd" id="newpwd" placeholder="新密码">
+        <input type="button" id="update" value="修改密码">
+    </form>
+    <h2>登录</h2>
+    <form method="post" action="">
+        <label for="username">用户名：</label>
+        <input type="text" name="username" id="Lusername" placeholder="请输入用户名">
+        <label for="password">密码</label>
+        <input type="password" name="password" id="Lpassword" placeholder="请输入密码">
+        <input type="button" id="login" value="登录">
+    </form>
+    <script src="./js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $(function () {
+            //查询数据
+            $.post("/getAll", function (result) {
+                // console.log(result);
+                var html = "";
+                $.each(result, function (index, item) {
+                    html += '<p>姓名：' + item.username + '</p>';
+                })
+                $(".mess").html(html);
+            })
+            //登录
+            $("#login").click(function () {
+                var username = $("#Lusername").val();
+                var password = $("#Lpassword").val();
+                $.post("/postLogin", {
+                    "username": username,
+                    "password": password
+                }, function (result) {
+                    if (result == "1") {
+                        alert("登录成功");
+                    } else if (result == "-1") {
+                        alert("登录失败");
+                    } else if (result == "-2") {
+                        alert("用户名不存在");
+                    }
+                })
+            })
+            //注册
+            $("#insert").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                $.post("/postRegister", {
+                    "username": username,
+                    "password": password
+                }, function (result) {
+                    if (result == "1") {
+                        // alert("success");
+                        location.href = "";
+                    } else {
+                        alert("error");
+                    }
+                })
+            })
+            //修改密码
+            $("#update").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                $.post("/postlogin", {
+                    "username": username,
+                    "password": password
+                }, function (result) {
+                    if (result == "1") {
+                        alert("success");
+                        location.href = "login";
+                    } else {
+                        alert("error");
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>
